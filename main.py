@@ -19,7 +19,7 @@ if sys.platform == "win32":
 from modules.system_checker import check_system_requirements
 from modules.preset_manager import choose_color_preset
 from modules.handbrake_processor import ask_handbrake_preprocessing, apply_handbrake_preprocessing
-from modules.ffmpeg_processor import apply_itsscale_with_encode
+from modules.ffmpeg_processor import apply_itsscale_with_encode, apply_filters_only, apply_itsscale_only
 from modules.user_interface import (
     drag_and_drop_prompt, 
     ask_itsscale, 
@@ -50,38 +50,46 @@ def main():
     
     base = os.path.splitext(os.path.basename(original_video_path))[0]
     
-    # Step 2: HandBrake preprocessing (if requested)
     if use_handbrake:
-        print(f"\n🛠️  Step 1/2: HandBrake Compression...")
+        # New workflow: 1) Apply filters, 2) HandBrake, 3) itsscale
+        print(f"\n🎬 Step 1/3: Applying Color Filters...")
+        
+        # Apply filters first without itsscale
+        filtered_output = f"{base}_filtered.mp4"
+        apply_filters_only(original_video_path, color_presets, filtered_output)
+        
+        print(f"\n🛠️  Step 2/3: HandBrake Compression...")
         handbrake_output = f"{base}_compressed.mp4"
         
-        if apply_handbrake_preprocessing(original_video_path, handbrake_output):
-            input_for_ffmpeg = handbrake_output
+        if apply_handbrake_preprocessing(filtered_output, handbrake_output):
             print(f"📦 Compressed file: {handbrake_output}")
+            
+            print(f"\n⚡ Step 3/3: Applying itsscale trick...")
+            final_output = generate_output_filename(base, color_presets, use_handbrake)
+            apply_itsscale_only(handbrake_output, scale, final_output)
+            
+            # Cleanup intermediate files
+            try:
+                os.remove(filtered_output)
+                os.remove(handbrake_output)
+                print(f"🗑️  Cleaned up intermediate files")
+            except:
+                print(f"⚠️  Could not remove some intermediate files")
         else:
-            print("⚠️  HandBrake failed, proceeding with original file...")
-            input_for_ffmpeg = original_video_path
+            print("⚠️  HandBrake failed, proceeding with filtered file and itsscale...")
+            final_output = generate_output_filename(base, color_presets, False)
+            apply_itsscale_only(filtered_output, scale, final_output)
+            
+            # Cleanup
+            try:
+                os.remove(filtered_output)
+            except:
+                pass
     else:
-        input_for_ffmpeg = original_video_path
-    
-    # Step 3: FFmpeg processing with itsscale and color correction
-    step_number = "2/2" if use_handbrake else "1/1"
-    print(f"\n🎬 Step {step_number}: Video Enhancement...")
-    
-    # Generate output filename
-    final_output = generate_output_filename(base, color_presets, use_handbrake)
-    
-    # Apply FFmpeg processing
-    apply_itsscale_with_encode(input_for_ffmpeg, scale, color_presets, final_output)
-    
-    # Step 4: Cleanup and final reporting
-    # Cleanup intermediate file if HandBrake was used
-    if use_handbrake and os.path.exists(handbrake_output) and input_for_ffmpeg == handbrake_output:
-        try:
-            os.remove(handbrake_output)
-            print(f"🗑️  Cleaned up intermediate file: {handbrake_output}")
-        except:
-            print(f"⚠️  Could not remove intermediate file: {handbrake_output}")
+        # Original workflow: Apply filters and itsscale together
+        print(f"\n🎬 Step 1/1: Video Enhancement...")
+        final_output = generate_output_filename(base, color_presets, use_handbrake)
+        apply_itsscale_with_encode(original_video_path, scale, color_presets, final_output)
     
     print(f"✅ Done! Final output saved to: {final_output}")
     

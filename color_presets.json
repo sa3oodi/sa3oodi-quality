@@ -5,50 +5,55 @@
       "description": "Apply no color effects - keep original video colors",
       "filter": ""
     },
-    "colors_medium": {
-      "name": "Colors - Medium",
-      "description": "Balanced color enhancement with moderate saturation boost",
-      "filter": "eq=contrast=1.04:brightness=0.017:saturation=1.21:gamma=1.0,colorbalance=rs=0.02:gs=0.01:bs=0.02,unsharp=5:5:0.55:5:5:0.0"
+    "low_brightness": {
+      "name": "Low Brightness Enhancement",
+      "description": "Dramatic brightening for dark scenes - boosts shadows and underexposed areas significantly",
+      "filter": "eq=brightness=0.25:contrast=1.15"
     },
-    "hdr_vivid_colors": {
-      "name": "HDR - Vivid Colors",
-      "description": "High dynamic range look with vivid, saturated colors for vibrant visuals",
+    "medium_brightness": {
+      "name": "Medium Brightness Enhancement",
+      "description": "Balanced illumination boost - subtle brightening with enhanced contrast for natural look",
+      "filter": "eq=brightness=0.07:contrast=1.04"
+    },
+    "high_brightness": {
+      "name": "High Brightness Enhancement",
+      "description": "Fine-tuned enhancement for bright scenes - gentle brightening with strong contrast boost",
+      "filter": "eq=brightness=0.02:contrast=1.10"
+    },
+    "sharpness_clarity_low": {
+      "name": "Sharpness & Clarity - Low",
+      "description": "Gentle detail enhancement - subtle sharpening that preserves natural texture without artifacts",
+      "filter": "unsharp=5:5:0.15:5:5:0.0"
+    },
+    "sharpness_clarity_medium": {
+      "name": "Sharpness & Clarity - Medium",
+      "description": "Balanced detail boost - moderate sharpening for crisp edges and enhanced texture definition",
+      "filter": "unsharp=7:7:0.25:7:7:0.0"
+    },
+    "sharpness_clarity_high": {
+      "name": "Sharpness & Clarity - High",
+      "description": "Maximum detail extraction - aggressive sharpening for ultra-crisp results and fine detail pop",
+      "filter": "unsharp=9:9:0.57:9:9:0.0"
+    },
+    "colors_lut_low": {
+      "name": "Colors LUT - Low",
+      "description": "Cinematic color grading - subtle professional color enhancement with film-like character",
+      "filter": "lut3d=luts/ColorsLow.cube"
+    },
+    "colors_lut_medium": {
+      "name": "Colors LUT - Medium",
+      "description": "Vibrant color transformation - enhanced saturation and color depth for striking visuals",
+      "filter": "lut3d=luts/ColorsMid.cube"
+    },
+    "colors_lut_high": {
+      "name": "Colors LUT - High",
+      "description": "Dramatic color enhancement - bold, saturated colors with maximum visual impact and richness",
+      "filter": "lut3d=luts/ColorsHigh.cube"
+    },
+    "hdr_vivid_direct": {
+      "name": "HDR Vivid Colors - Enhanced",
+      "description": "Dynamic range enhancement - local contrast boost with vivid colors and enhanced detail separation",
       "filter": "eq=contrast=1.04:brightness=0.017:saturation=1.21:gamma=1.0,colorbalance=rs=0.02:gs=0.01:bs=0.02,curves=r='0/0 0.99/1':g='0/0 0.99/1':b='0/0 0.99/1',unsharp=5:5:0.55:5:5:0.0"
-    },
-    "colors_high": {
-      "name": "Colors - High",
-      "description": "Intense color enhancement with high saturation for bold, vibrant videos",
-      "filter": "eq=contrast=1.04:brightness=0.017:saturation=1.21:gamma=1.0,colorbalance=rs=0.02:gs=0.01:bs=0.02,unsharp=5:5:0.55:5:5:0.0"
-    },
-    "colors_low": {
-      "name": "Colors - Low",
-      "description": "Subtle color enhancement with gentle saturation boost",
-      "filter": "eq=contrast=1.04:brightness=0.017:saturation=1.21:gamma=1.0,colorbalance=rs=0.02:gs=0.01:bs=0.02,unsharp=5:5:0.55:5:5:0.0"
-    },
-    "bright_areas": {
-      "name": "Bright Areas Enhanced",
-      "description": "Enhances highlights and bright areas for better visibility",
-      "filter": "eq=contrast=1.04:brightness=0.017:saturation=1.21:gamma=1.0,colorbalance=rs=0.02:gs=0.01:bs=0.02,curves=r='0/0 0.8/0.9 1/1':g='0/0 0.8/0.9 1/1':b='0/0 0.8/0.9 1/1',unsharp=5:5:0.55:5:5:0.0"
-    },
-    "dark_areas": {
-      "name": "Dark Areas Enhanced",
-      "description": "Enhances shadows and dark areas for better detail visibility",
-      "filter": "eq=contrast=1.04:brightness=0.017:saturation=1.21:gamma=1.0,colorbalance=rs=0.02:gs=0.01:bs=0.02,curves=r='0/0 0.2/0.3 1/1':g='0/0 0.2/0.3 1/1':b='0/0 0.2/0.3 1/1',unsharp=5:5:0.55:5:5:0.0"
-    },
-    "sharpness_high": {
-      "name": "Sharpness - High",
-      "description": "Maximum sharpness and clarity for crisp, detailed videos",
-      "filter": "eq=contrast=1.04:brightness=0.017:saturation=1.21:gamma=1.0,colorbalance=rs=0.02:gs=0.01:bs=0.02,unsharp=7:7:2.0:7:7:0.0"
-    },
-    "sharpness_low": {
-      "name": "Sharpness - Low",
-      "description": "Subtle sharpness enhancement for natural-looking detail boost",
-      "filter": "eq=contrast=1.04:brightness=0.017:saturation=1.21:gamma=1.0,colorbalance=rs=0.02:gs=0.01:bs=0.02,unsharp=3:3:0.5:3:3:0.0"
-    },
-    "sharpness_medium": {
-      "name": "Sharpness - Medium",
-      "description": "Balanced sharpness enhancement for improved detail without artifacts",
-      "filter": "eq=contrast=1.04:brightness=0.017:saturation=1.21:gamma=1.0,colorbalance=rs=0.02:gs=0.01:bs=0.02,unsharp=5:5:1.0:5:5:0.0"
     }
   }
 }
